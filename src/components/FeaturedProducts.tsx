@@ -1,28 +1,24 @@
-import { useState } from "react";
 import ProductCard from "./ProductCard";
 import { Button } from "@/components/ui/button";
-import { getFeaturedProducts } from "@/data/products";
+import { getFeaturedProducts } from "@/data/demoData";
 import { ArrowRight } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/contexts/CartContext";
+import { Link } from "react-router-dom";
 
 const FeaturedProducts = () => {
-  const [cart, setCart] = useState<Record<string, number>>({});
-  const { toast } = useToast();
+  const { addToCart, removeFromCart, items } = useCart();
   const featuredProducts = getFeaturedProducts();
 
   const handleAddToCart = (productId: string, quantity: number) => {
-    setCart(prev => ({
-      ...prev,
-      [productId]: quantity
-    }));
-
-    const product = featuredProducts.find(p => p.id === productId);
-    if (product) {
-      toast({
-        title: "Added to cart!",
-        description: `${product.name} (${quantity}) added to your cart.`,
-      });
+    if (quantity === 0) {
+      removeFromCart(productId);
+    } else {
+      addToCart(productId, quantity);
     }
+  };
+
+  const isInCart = (productId: string) => {
+    return items.some(item => item.productId === productId);
   };
 
   return (
@@ -37,10 +33,12 @@ const FeaturedProducts = () => {
               Handpicked fresh vegetables and spices at unbeatable prices
             </p>
           </div>
-          <Button variant="outline" className="group hidden md:flex">
-            View All Products
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Button>
+          <Link to="/vegetables">
+            <Button variant="outline" className="group hidden md:flex">
+              View All Products
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -49,6 +47,7 @@ const FeaturedProducts = () => {
               key={product.id}
               product={product}
               onAddToCart={handleAddToCart}
+              isInCart={isInCart(product.id)}
             />
           ))}
         </div>
