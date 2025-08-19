@@ -1,5 +1,8 @@
 // Demo data for the vegetable e-commerce app
-import { Product, User, Order, Review, Category, Address } from '@/types';
+import { Product, User, Order, Review, Category, Address, OrderItem, OrderStatus } from '@/types';
+
+// Use demo data arrays for orders
+let orders = [...demoOrders];
 
 export const categories: Category[] = [
   {
@@ -346,7 +349,9 @@ export const getUserById = (id: string): User | undefined => {
 };
 
 export const getOrdersByUserId = (userId: string): Order[] => {
-  return demoOrders.filter(order => order.userId === userId);
+  return orders.filter(order => order.userId === userId).sort((a, b) => 
+    new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()
+  );
 };
 
 export const getOrderById = (id: string): Order | undefined => {
@@ -355,6 +360,79 @@ export const getOrderById = (id: string): Order | undefined => {
 
 export const getReviewsByProductId = (productId: string): Review[] => {
   return demoReviews.filter(review => review.productId === productId);
+};
+
+export const getProductByName = (name: string): Product | undefined => {
+  const formattedName = name.toLowerCase().replace(/-/g, ' ');
+  return products.find(product => 
+    product.name.toLowerCase() === formattedName ||
+    product.hindiName.toLowerCase() === formattedName
+  );
+};
+
+export const getRelatedProducts = (productId: string, category: string, limit: number = 4): Product[] => {
+  return products
+    .filter(product => product.id !== productId && product.category === category)
+    .slice(0, limit);
+};
+
+export const getProductReviews = (productId: string): Review[] => {
+  return demoReviews.filter(review => review.productId === productId);
+};
+
+export const createOrder = (
+  userId: string, 
+  cartItems: any[], 
+  deliveryAddress: Address, 
+  deliveryDate: string, 
+  mobile: string
+): Order => {
+  const orderId = `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  
+  const orderItems: OrderItem[] = cartItems.map(item => ({
+    productId: item.productId,
+    quantity: item.quantity,
+    priceAtOrder: 0, // Will be set when order is packed
+    estimatedPrice: {
+      min: item.product.minPrice * item.quantity,
+      max: item.product.maxPrice * item.quantity
+    }
+  }));
+
+  const subtotal = orderItems.reduce((total, item) => 
+    total + (item.estimatedPrice?.max || 0), 0
+  );
+  
+  const deliveryFee = 40;
+  const total = subtotal + deliveryFee;
+
+  const newOrder: Order = {
+    id: orderId,
+    userId,
+    items: orderItems,
+    status: 'placed',
+    deliveryDate,
+    deliveryAddress,
+    mobile,
+    subtotal,
+    deliveryFee,
+    total,
+    orderDate: new Date().toISOString(),
+    estimatedTotal: {
+      min: subtotal + deliveryFee,
+      max: total
+    }
+  };
+
+  orders.unshift(newOrder);
+  return newOrder;
+};
+
+export const updateOrderStatus = (orderId: string, status: OrderStatus): void => {
+  const orderIndex = orders.findIndex(order => order.id === orderId);
+  if (orderIndex !== -1) {
+    orders[orderIndex].status = status;
+  }
 };
 
 export const authenticateUser = (mobile: string, password?: string, otp?: string): User | null => {

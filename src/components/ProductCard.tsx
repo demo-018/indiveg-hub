@@ -196,3 +196,4 @@ const ProductCard = ({ product, onAddToCart, isInCart = false, viewMode = 'grid'
 };
 
 export default ProductCard;
+export { ProductCard };
