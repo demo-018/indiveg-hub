@@ -53,12 +53,12 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-foreground mb-4">Quick Links</h3>
             <ul className="space-y-3 text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">Fresh Vegetables</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Leafy Greens</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Spices & Herbs</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Organic Products</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Seasonal Offers</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Bulk Orders</a></li>
+              <li><a href="/vegetables" className="hover:text-primary transition-colors">Fresh Vegetables</a></li>
+              <li><a href="/vegetables" className="hover:text-primary transition-colors">Leafy Greens</a></li>
+              <li><a href="/vegetables" className="hover:text-primary transition-colors">Spices & Herbs</a></li>
+              <li><a href="/vegetables" className="hover:text-primary transition-colors">Organic Products</a></li>
+              <li><a href="/vegetables" className="hover:text-primary transition-colors">Seasonal Offers</a></li>
+              <li><a href="/contact" className="hover:text-primary transition-colors">Bulk Orders</a></li>
             </ul>
           </div>
 
@@ -66,12 +66,12 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-foreground mb-4">Customer Service</h3>
             <ul className="space-y-3 text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">My Account</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Order Tracking</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Return Policy</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">FAQ</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Contact Us</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Terms & Conditions</a></li>
+              <li><a href="/profile" className="hover:text-primary transition-colors">My Account</a></li>
+              <li><a href="/order-tracking" className="hover:text-primary transition-colors">Order Tracking</a></li>
+              <li><a href="/return-policy" className="hover:text-primary transition-colors">Return Policy</a></li>
+              <li><a href="/faq" className="hover:text-primary transition-colors">FAQ</a></li>
+              <li><a href="/contact" className="hover:text-primary transition-colors">Contact Us</a></li>
+              <li><a href="/terms-conditions" className="hover:text-primary transition-colors">Terms & Conditions</a></li>
             </ul>
           </div>
 
@@ -155,9 +155,9 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <div>© 2024 IndiVeg Hub. All rights reserved. Made with ❤️ for India.</div>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-primary transition-colors">Cookie Policy</a>
+            <a href="/terms-conditions" className="hover:text-primary transition-colors">Privacy Policy</a>
+            <a href="/terms-conditions" className="hover:text-primary transition-colors">Terms of Service</a>
+            <a href="/terms-conditions" className="hover:text-primary transition-colors">Cookie Policy</a>
           </div>
         </div>
       </div>
