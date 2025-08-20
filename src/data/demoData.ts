@@ -1,9 +1,6 @@
 // Demo data for the vegetable e-commerce app
 import { Product, User, Order, Review, Category, Address, OrderItem, OrderStatus } from '@/types';
 
-// Use demo data arrays for orders
-let orders = [...demoOrders];
-
 export const categories: Category[] = [
   {
     id: "leafy-greens",
@@ -323,6 +320,9 @@ export const demoReviews: Review[] = [
     userName: "Rajesh K."
   }
 ];
+
+// Use demo data arrays for orders - mutable copy for order management
+let orders = [...demoOrders];
 
 // Demo login credentials
 export const DEMO_CREDENTIALS = {
