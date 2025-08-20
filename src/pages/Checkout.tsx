@@ -17,6 +17,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useOrders } from '@/contexts/OrderContext';
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/Header';
+import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
@@ -25,9 +26,8 @@ const checkoutSchema = z.object({
   mobile: z.string().regex(/^[6-9]\d{9}$/, 'Enter a valid 10-digit mobile number'),
   street: z.string().min(5, 'Street address is required'),
   area: z.string().min(2, 'Area is required'),
-  city: z.string().min(2, 'City is required'),
-  state: z.string().min(2, 'State is required'),
   pincode: z.string().regex(/^\d{6}$/, 'Enter a valid 6-digit pincode'),
+  paymentMethod: z.string().min(1, 'Please select a payment method'),
 });
 
 type CheckoutForm = z.infer<typeof checkoutSchema>;
@@ -50,10 +50,9 @@ const Checkout = () => {
       mobile: user?.mobile || '',
       street: user?.addresses[0]?.street || '',
       area: user?.addresses[0]?.area || '',
-      city: user?.addresses[0]?.city || '',
-      state: user?.addresses[0]?.state || '',
       pincode: user?.addresses[0]?.pincode || '',
       deliveryDate: '',
+      paymentMethod: '',
     },
   });
 
@@ -83,8 +82,8 @@ const Checkout = () => {
         id: 'checkout-address',
         street: data.street,
         area: data.area,
-        city: data.city,
-        state: data.state,
+        city: 'Delhi',
+        state: 'Delhi',
         pincode: data.pincode,
         isDefault: false
       };
@@ -113,10 +112,11 @@ const Checkout = () => {
 
   if (cartItems.length === 0) {
     return (
-      <ProtectedRoute>
-        <div className="min-h-screen bg-background">
-          <Header cartItemsCount={0} />
-          <div className="container mx-auto px-4 py-16 text-center">
+    <ProtectedRoute>
+      <div className="min-h-screen bg-background">
+        <Header cartItemsCount={0} />
+        <Navbar />
+        <div className="container mx-auto px-4 py-16 text-center">
             <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
             <p className="text-muted-foreground mb-6">Add some vegetables to proceed with checkout</p>
             <Button onClick={() => navigate('/vegetables')} className="btn-primary">
@@ -133,6 +133,7 @@ const Checkout = () => {
     <ProtectedRoute>
       <div className="min-h-screen bg-background">
         <Header cartItemsCount={cartItems.length} />
+        <Navbar />
         
         <main className="container mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-8">Checkout</h1>
@@ -270,35 +271,85 @@ const Checkout = () => {
                         />
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="city"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>City</FormLabel>
-                              <FormControl>
-                                <Input placeholder="City" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="state"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>State</FormLabel>
-                              <FormControl>
-                                <Input placeholder="State" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                      <div className="text-sm text-muted-foreground">
+                        Currently delivering only in Delhi NCR
                       </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Payment Method */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <CreditCard className="h-5 w-5" />
+                        Payment Method
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <FormField
+                        control={form.control}
+                        name="paymentMethod"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <div className="grid gap-3">
+                                <div className="flex items-center space-x-2">
+                                  <input
+                                    type="radio"
+                                    id="cod"
+                                    value="cod"
+                                    checked={field.value === 'cod'}
+                                    onChange={field.onChange}
+                                    className="peer sr-only"
+                                  />
+                                  <label
+                                    htmlFor="cod"
+                                    className={cn(
+                                      "flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all w-full",
+                                      field.value === 'cod' ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"
+                                    )}
+                                  >
+                                    <div className="w-4 h-4 rounded-full border-2 border-primary flex items-center justify-center">
+                                      {field.value === 'cod' && <div className="w-2 h-2 rounded-full bg-primary" />}
+                                    </div>
+                                    <div>
+                                      <p className="font-medium">Cash on Delivery</p>
+                                      <p className="text-sm text-muted-foreground">Pay when you receive your order</p>
+                                    </div>
+                                  </label>
+                                </div>
+                                
+                                <div className="flex items-center space-x-2">
+                                  <input
+                                    type="radio"
+                                    id="online"
+                                    value="online"
+                                    checked={field.value === 'online'}
+                                    onChange={field.onChange}
+                                    className="peer sr-only"
+                                  />
+                                  <label
+                                    htmlFor="online"
+                                    className={cn(
+                                      "flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all w-full",
+                                      field.value === 'online' ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"
+                                    )}
+                                  >
+                                    <div className="w-4 h-4 rounded-full border-2 border-primary flex items-center justify-center">
+                                      {field.value === 'online' && <div className="w-2 h-2 rounded-full bg-primary" />}
+                                    </div>
+                                    <div>
+                                      <p className="font-medium">Online Payment</p>
+                                      <p className="text-sm text-muted-foreground">UPI, Card, Net Banking</p>
+                                    </div>
+                                  </label>
+                                </div>
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </CardContent>
                   </Card>
 

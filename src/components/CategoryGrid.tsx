@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { categories } from "@/data/products";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CategoryGrid = () => {
   return (
@@ -19,33 +20,32 @@ const CategoryGrid = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category) => (
-            <Card 
-              key={category.id} 
-              className="group cursor-pointer card-hover bg-card/50 backdrop-blur border-border/50"
-            >
-              <CardContent className="p-0">
-                <div className="relative overflow-hidden rounded-t-lg">
-                  <img
-                    src={category.image}
-                    alt={category.name}
-                    className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="text-xl font-bold">{category.name}</h3>
-                    <p className="text-sm opacity-90">{category.hindiName}</p>
+            <Link key={category.id} to="/vegetables">
+              <Card className="group cursor-pointer card-hover bg-card/50 backdrop-blur border-border/50">
+                <CardContent className="p-0">
+                  <div className="relative overflow-hidden rounded-t-lg">
+                    <img
+                      src={category.image}
+                      alt={category.name}
+                      className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h3 className="text-xl font-bold">{category.name}</h3>
+                      <p className="text-sm opacity-90">{category.hindiName}</p>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="p-6">
-                  <p className="text-muted-foreground mb-4">{category.description}</p>
-                  <Button variant="ghost" className="group/btn p-0 h-auto font-semibold text-primary hover:text-primary-glow">
-                    Browse {category.name}
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                  
+                  <div className="p-6">
+                    <p className="text-muted-foreground mb-4">{category.description}</p>
+                    <Button variant="ghost" className="group/btn p-0 h-auto font-semibold text-primary hover:text-primary-glow">
+                      Browse {category.name}
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
 

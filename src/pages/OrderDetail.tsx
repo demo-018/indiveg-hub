@@ -11,6 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { OrderStatus } from '@/types';
 import { getProductById } from '@/data/demoData';
 import Header from '@/components/Header';
+import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useCart } from '@/contexts/CartContext';
 
@@ -74,6 +75,7 @@ const OrderDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header cartItemsCount={getTotalItems()} />
+      <Navbar />
       
       <main className="container mx-auto px-4 py-8">
         {/* Header */}

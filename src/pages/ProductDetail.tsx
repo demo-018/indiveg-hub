@@ -9,6 +9,7 @@ import { getProductByName, getRelatedProducts, getProductReviews } from '@/data/
 import { useCart } from '@/contexts/CartContext';
 import { ProductCard } from '@/components/ProductCard';
 import Header from '@/components/Header';
+import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 const ProductDetail = () => {
@@ -54,6 +55,7 @@ const ProductDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header cartItemsCount={getTotalItems()} />
+      <Navbar />
       
       <main className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}

@@ -5,6 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import ProductCard from '@/components/ProductCard';
+import Header from "@/components/Header";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { products, categories } from '@/data/demoData';
 import { useCart } from '@/contexts/CartContext';
 
@@ -78,8 +81,12 @@ const Vegetables = () => {
     return items.some(item => item.productId === productId);
   };
 
+  const totalItems = items.length;
+
   return (
     <div className="min-h-screen bg-background">
+      <Header cartItemsCount={totalItems} />
+      <Navbar />
       {/* Header */}
       <div className="bg-gradient-primary text-primary-foreground py-12">
         <div className="container mx-auto px-4">
@@ -242,6 +249,7 @@ const Vegetables = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };
